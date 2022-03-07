@@ -60,6 +60,14 @@ const invertFile = async (inputFile, outputFile) => {
   image.invert().writeAsync(outputFile);
 };
 
+const prepareOutputFilename = (filename, editted) => {
+  const [name, ext] = filename.split(".");
+  if (editted) {
+    return `eddited-${name}.${ext}`;
+  }
+  return `${name}-with-watermark.${ext}`;
+};
+
 const startApp = async () => {
   const answer = await inquirer.prompt([
     {
@@ -71,13 +79,6 @@ const startApp = async () => {
   ]);
 
   if (!answer.start) process.exit();
-
-  const prepareOutputFilename = (filename, editted) => {
-    const [name, ext] = filename.split(".");
-    if (editted) {
-      return `eddited-${name}.${ext}`;
-    } else return `${name}-with-watermark.${ext}`;
-  };
 
   const options = await inquirer.prompt([
     {
